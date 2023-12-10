@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Task = require("../models/task");
+const axios = require("axios"); // Asegúrate de tener axios instalado
+
+const MONGODB_SERVICE_URL = "http://localhost:3002/api"; // URL del servicio de MongoDB
 
 // Obtener todas las tareas
 router.get("/tasks", async (req, res) => {
   try {
-    const tasks = await Task.find();
-    res.json({ tasks });
+    const response = await axios.get(`${MONGODB_SERVICE_URL}/tasks`);
+    res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener las tareas" });
   }
@@ -17,8 +19,11 @@ router.post("/tasks", async (req, res) => {
   const { title, description } = req.body;
 
   try {
-    const newTask = await Task.create({ title, description });
-    res.json({ message: "Tarea creada con éxito", task: newTask });
+    const response = await axios.post(`${MONGODB_SERVICE_URL}/tasks`, {
+      title,
+      description,
+    });
+    res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Error al crear la tarea" });
   }
@@ -29,8 +34,10 @@ router.delete("/tasks/:id", async (req, res) => {
   const taskId = req.params.id;
 
   try {
-    await Task.findByIdAndDelete(taskId);
-    res.json({ message: "Tarea eliminada con éxito" });
+    const response = await axios.delete(
+      `${MONGODB_SERVICE_URL}/tasks/${taskId}`
+    );
+    res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Error al eliminar la tarea" });
   }
@@ -41,12 +48,10 @@ router.put("/tasks/:id/completed", async (req, res) => {
   const taskId = req.params.id;
 
   try {
-    const updatedTask = await Task.findByIdAndUpdate(
-      taskId,
-      { completed: true },
-      { new: true }
+    const response = await axios.put(
+      `${MONGODB_SERVICE_URL}/tasks/${taskId}/completed`
     );
-    res.json({ message: "Tarea marcada como completada", task: updatedTask });
+    res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Error al marcar la tarea como completada" });
   }

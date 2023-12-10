@@ -1,23 +1,18 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const tasksRouter = require("./routes/tasks");
-const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 const PORT = 3001;
 
-app.use(bodyParser.json());
+app.use(cors()); // Habilitar CORS
 
-// Conectar a MongoDB
-mongoose.connect("mongodb://localhost:27017/tododb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+app.use(express.json());
 
 // Configurar rutas
 app.use("/api", tasksRouter);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor del backend iniciado en http://localhost:${PORT}`);
+  console.info(`Servidor del backend iniciado en http://localhost:${PORT}`);
 });

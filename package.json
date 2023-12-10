@@ -1,0 +1,26 @@
+{
+  "type": "commonjs",
+  "name": "todo-microservices-mongodb",
+  "version": "1.0.0",
+  "description": "Todo Microservices mongoDB",
+  "scripts": {
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\" \"npm run start-mongodb\"",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd frontend && npm start",
+    "start-mongodb": "cd mongodb-service && npm start",
+    "stop-mongodb": "mongo admin --eval \"db.shutdownServer()\""  
+    },
+  "keywords": [
+    "microservices",
+    "TODO-api",
+    "nodejs",
+    "express",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "Lina Beltrán",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
