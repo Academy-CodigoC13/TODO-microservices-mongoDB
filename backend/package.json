@@ -1,0 +1,13 @@
+{
+  "name": "microservices-app-backend",
+  "version": "1.0.0",
+  "description": "Backend microservicio para la aplicación de tareas",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^8.0.3"
+  }
+}
